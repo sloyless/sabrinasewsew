@@ -1,0 +1,23 @@
+extends ./templates/includes/_layout.jade
+
+block title
+  title Home | SITENAME
+
+block content
+  .container
+    .row
+      .col-md-12
+        h2 Welcome to Grunt Sitebulder
+        p On save, the task runner will look for changes, compile the file from various formats (Sass, Coffee, Jade), and export to the build folder. Uses BrowserSync to generate a local server.
+        ul
+          li Sass files go in 
+            em source/styles
+          li Coffeescript files go in 
+            em source/scripts
+          li Jade files go in 
+            em source/templates
+          li Assets (Images/fonts/svg/json) go in 
+            em source/content
+        p There is also a 
+          em source/components 
+          | folder for Angular/React/Meteor development of modules.

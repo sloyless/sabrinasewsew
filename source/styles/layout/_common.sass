@@ -1,0 +1,101 @@
+// Global styles go here
+
+html
+  font-size: 62.5% // Font size reset to use rem values
+
+.serif
+  font-family: $font-family-serif
+
+.sans
+  font-family: $font-family-sans-serif
+
+body
+  font-weight: $body-font-weight
+
+strong
+  font-weight: $font-bold-weight
+
+h2
+  text-transform: uppercase
+  letter-spacing: 2px
+  color: $brand-orange
+  margin: 0 0 20px
+  text-align: center
+
+/* Animation */
+a, a:visited,
+input[type="submit"],
+button
+  +transition(color 0.2s ease-in-out)
+  -webkit-backface-visibility: hidden
+
+/* General */
+*:focus
+  outline: 0
+
+p
+  margin: 10px 0
+  &:first-of-type
+    margin-top: 0
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="tel"]
+  -moz-appearance: textfield
+  -moz-user-select: text
+  cursor: text
+  text-align: start
+  text-rendering: optimizelegibility
+
+ul.nolist
+  list-style-type: none
+  margin: 0
+  padding: 0
+
+img.alignleft
+  float: none
+  margin: 0 auto 10px
+  @media (min-width: $screen-sm)
+    float: left
+    margin: 0 10px 10px 0
+
+img.alignright
+  float: none
+  margin: 0 auto 10px
+  @media (min-width: $screen-sm)
+    float: right
+    margin: 0 0 10px 10px
+
+.clear
+  clear: both
+
+// Hide only visually, but have it available for screenreaders: h5bp.com/v
+.visuallyhidden
+  border: 0
+  clip: rect(0 0 0 0)
+  height: 1px
+  margin: -1px
+  overflow: hidden
+  padding: 0
+  position: absolute
+  width: 1px
+
+  // Extends the .visuallyhidden class to allow the element to be focusable when navigated to via the keyboard: h5bp.com/p
+  &.focusable:active, &.focusable:focus
+    clip: auto
+    height: auto
+    margin: 0
+    overflow: visible
+    position: static
+    width: auto
+
+// Icons
+.icon
+  display: block
+
+  &:before
+    display: block
+    position: relative
+    margin: 0 auto
+    content: ''
