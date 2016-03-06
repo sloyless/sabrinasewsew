@@ -1,4 +1,17 @@
-header(id="global-header")
-  .container
-    .row
-      .col-md-12
+header(id="global-header").container-fluid
+  .row
+    .col-xs-12
+      div.logo
+        a(href="/")
+          img.img-responsive.center-block(src="/content/images/logo.png" alt="Sabrina Sew & Sew")
+          img.img-responsive(src="/content/images/logo-small.png" alt="Sabrina Sew & Sew" style="display: none")
+      nav(id="mainNav" role="navigation")
+        ul.nav.nav-pills.text-center(role="tablist")
+          li(role="presentation") 
+            a(href="#styles") Styles &amp; Designs
+          li(role="presentation")
+            a(href="#about") About Me
+          li(role="presentation") 
+            a(href="#bts") Behind the Scenes
+          li(role="presentation") 
+            a(href="#contact") Contact

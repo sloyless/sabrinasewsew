@@ -15,10 +15,11 @@ body
 strong
   font-weight: $font-bold-weight
 
+h1
+  padding-left: 15px
+
 h2
-  text-transform: uppercase
   letter-spacing: 2px
-  color: $brand-orange
   margin: 0 0 20px
   text-align: center
 
@@ -99,3 +100,26 @@ img.alignright
     position: relative
     margin: 0 auto
     content: ''
+
+.parallax-window
+  min-height: 700px
+
+.divider
+  display: block
+  position: relative
+  border: 1px dashed silver
+  width: 100%
+  margin-top: 35px
+  margin-bottom: 35px
+  &:after
+    content: ''
+    display: block
+    position: absolute
+    top: -30px
+    left: 50%
+    transform: translateX(-50%)
+    width: 70px
+    height: 70px
+    padding: 0 40px
+    background: white url('../content/images/logo-small.png') no-repeat center center
+    background-size: 70px

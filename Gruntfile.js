@@ -1,4 +1,4 @@
-'use strict';
+'use_strict';
 
 module.exports = function(grunt) {
   require('load-grunt-tasks')(grunt);
@@ -18,8 +18,7 @@ module.exports = function(grunt) {
     sass: {
       dev: {
         options: {
-          style: 'expanded',
-          compass: true
+          style: 'expanded'
         },
         files: {
             "<%= project.build %>/styles.css": "<%= project.css %>/styles.sass"
@@ -28,7 +27,6 @@ module.exports = function(grunt) {
       build: {
         options: {
           style: 'expanded',
-          compass: true,
           sourcemap: 'none'
         },
         files: {
@@ -101,6 +99,19 @@ module.exports = function(grunt) {
         }
       }
     },
+    // JS Error checking
+    jshint: {
+      files: ['Gruntfile.js', '<%= project.build %>/scripts/app.js', '<%= project.build %>/components/**/*.js'],
+      options: {
+        // options here to override JSHint defaults
+        globals: {
+          jQuery: true,
+          console: true,
+          module: true,
+          document: true
+        }
+      }
+    },
     // Minify JS
     uglify: {
       options: {
@@ -140,10 +151,27 @@ module.exports = function(grunt) {
       uglify:{
         options:{
           title: "Grunt",
-          message: "JS Minified Successfully.",
+          message: "JS Linted and Minified Successfully.",
           duration: 2,
           max_jshint_notifications: 1
         }
+      },
+      images:{
+        options:{
+          title: "Grunt",
+          message: "Images Copied Successfully.",
+          duration: 2,
+          max_jshint_notifications: 1
+        }
+      }
+    },
+    sync: {
+      images: {
+        files: [{
+          cwd: '<%= project.app %>/', 
+          src: ['content/**/*'],
+          dest: '<%= project.build %>/'
+        }],
       }
     },
     // Copies remaining files to places other tasks can use
@@ -185,7 +213,11 @@ module.exports = function(grunt) {
       },
       uglify: {
         files: ['<%= project.build %>/**/*.js'],
-        tasks:['uglify','notify:uglify']
+        tasks:['jshint','uglify','notify:uglify']
+      },
+      images: {
+        files: ['<%= project.app %>/content/**/*', '<%= project.js %>/vendor/*'],
+        tasks: ['sync:images', 'notify:images']
       }
     },
     // Server setup
@@ -195,6 +227,7 @@ module.exports = function(grunt) {
           src : [
               '<%= project.build %>/styles.min.css',
               '<%= project.build %>/**/*.js',
+              '<%= project.build %>/content/**/*.{png,jpg,jpeg,gif,webp,svg}',
               '<%= project.build %>/**/*.html'
           ]
         },
@@ -209,24 +242,25 @@ module.exports = function(grunt) {
   // Default task(s).
   grunt.registerTask('default', [
     'clean',
+    'copy',
+    'jade',
     'sass:dev',
     'autoprefixer',
     'cssmin',
-    'jade',
     'coffee:dev',
     'uglify',
-    'copy',
     'browserSync',
     'watch'
   ]);
   grunt.registerTask('build', [
     'clean',
+    'copy',
+    'jade',
     'sass:build',
     'autoprefixer',
     'cssmin',
-    'jade',
     'coffee:build',
+    'jshint',
     'uglify',
-    'copy'
   ]);
 };
