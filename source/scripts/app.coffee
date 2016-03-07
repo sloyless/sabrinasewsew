@@ -5,3 +5,35 @@ feed = new Instafeed
   limit: 5,
   resolution: 'standard_resolution'
 feed.run()
+
+jQuery(document).ready ($) ->
+  didScroll = false
+  lastScrollTop = 0
+  delta = 170
+  navbarHeight = $('#global-header').outerHeight()
+
+  $(window).scroll (event) ->
+    didScroll = true
+    false
+
+  setInterval ->
+    if (didScroll)
+      hasScrolled()
+      didScroll = false
+      false
+  , 250
+
+  hasScrolled = ->
+    st = $(@).scrollTop()
+    if Math.abs(lastScrollTop - st) <= delta
+      return
+
+    if st > lastScrollTop && st > navbarHeight
+      $('#global-header').addClass 'fixed'
+    else
+      if st < lastScrollTop && st < navbarHeight
+        $('#global-header').removeClass 'fixed'
+
+    lastScrollTop = st
+    false
+  false

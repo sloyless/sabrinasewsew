@@ -3,7 +3,7 @@ extends ./templates/includes/_layout.jade
 block content
   .container-fluid
     .row
-      .parallax-window(data-parallax="scroll" data-image-src="/content/images/styles-image.jpg" data-positionY="500" naturalWidth="1100" naturalHeight="957")
+      .parallax-window#styles(data-parallax="scroll" data-image-src="/content/images/styles-image.jpg" data-positionY="500" naturalWidth="1100" naturalHeight="957")
       
       include ./templates/_about.jade
 
@@ -12,3 +12,5 @@ block content
       include ./templates/_feed.jade
 
       div.divider.col-xs-12
+
+      include ./templates/_contact.jade

@@ -5,9 +5,32 @@
 #mainNav
   font-family: $headings-font-family
   font-size: 12px
+  width: 100%
 
   li
-    width: 24.5%
+    width: 23%
+    margin-top: 10px
 
     @media(min-width: $screen-md)
       width: auto
+
+    &.logo-small
+      margin-top: 0
+      width: 70px
+      height: 70px
+
+      img
+        opacity: 0
+        transform: rotateY(180deg)
+        transition: all 0.4s ease-in-out
+
+#global-header.fixed
+  #mainNav
+    background-color: rgba(255,255,255,0.9)
+    position: fixed
+    top: 0
+    left: 0
+    z-index: 998
+    li.logo-small img
+      opacity: 1
+      transform: rotateY(0deg)
