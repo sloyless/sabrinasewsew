@@ -8,21 +8,24 @@
   width: 100%
 
   li
-    width: 23%
-    margin-top: 10px
+    margin-top: 23px
+    margin-left: 0
+
+    a
+      padding: 0
 
     @media(min-width: $screen-md)
       width: auto
 
     &.logo-small
       margin-top: 0
-      width: 70px
       height: 70px
 
       img
         opacity: 0
         transform: rotateY(180deg)
         transition: all 0.4s ease-in-out
+        max-width: 70px
 
 #global-header.fixed
   #mainNav

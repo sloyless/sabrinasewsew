@@ -1,4 +1,16 @@
-section.user-feed
+section#bts
+  margin-bottom: 25px
+  > a
+    padding-left: 15px
+    font-family: $headings-font-family
+    font-size: 13px
+
+    @media (min-width: $screen-md)
+      font-size: 16px
+
+    i
+      margin-right: 5px
+
   #instafeed
     a
       padding-left: 15px
@@ -11,7 +23,16 @@ section.user-feed
 
       img
         @extend .img-responsive
+        border: 1px solid silver
+        box-shadow: 0 0 10px silver
+        padding: 5px
+        transition: all 0.2s ease-in-out
 
       &:first-of-type
         @media (min-width: $screen-md)
           width: 50%
+
+      &:hover, &:focus
+        img
+          box-shadow: none
+          border: 1px solid $brand-purple
