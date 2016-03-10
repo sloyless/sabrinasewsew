@@ -38,6 +38,7 @@ jQuery(document).ready ($) ->
     false
   false
 
+  # Smooth anchor scrolling
   $('a[href^="#"]').on 'click.smoothscroll', (e) ->
     e.preventDefault()
 
