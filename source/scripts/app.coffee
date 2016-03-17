@@ -46,6 +46,6 @@ jQuery(document).ready ($) ->
     $target = $(target)
 
     $('html, body').stop().animate {
-      'scrollTop': $target.offset().top
+      'scrollTop': $target.offset().top-80
     }, 500, 'swing', ->
       window.location.hash = target  
