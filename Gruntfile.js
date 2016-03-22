@@ -260,7 +260,6 @@ module.exports = function(grunt) {
     'autoprefixer',
     'cssmin',
     'coffee:build',
-    'jshint',
     'uglify',
   ]);
 };
