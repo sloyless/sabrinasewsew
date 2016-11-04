@@ -1,10 +1,4 @@
-feed = new Instafeed
-  get: 'user',
-  userId: '286195458',
-  accessToken: '3412123.1677ed0.3140ceda1d93427dbc1c0b15b4352b74',
-  limit: 5,
-  resolution: 'standard_resolution'
-feed.run()
+'use strict'
 
 jQuery(document).ready ($) ->
   didScroll = false
@@ -12,7 +6,7 @@ jQuery(document).ready ($) ->
   delta = 170
   navbarHeight = $('#global-header').outerHeight()
 
-  $(window).scroll (event) ->
+  $(window).scroll ->
     didScroll = true
     false
 
@@ -36,7 +30,6 @@ jQuery(document).ready ($) ->
 
     lastScrollTop = st
     false
-  false
 
   # Smooth anchor scrolling
   $('a[href^="#"]').on 'click.smoothscroll', (e) ->
@@ -48,4 +41,5 @@ jQuery(document).ready ($) ->
     $('html, body').stop().animate {
       'scrollTop': $target.offset().top-80
     }, 500, 'swing', ->
-      window.location.hash = target  
+      window.location.hash = target
+      false

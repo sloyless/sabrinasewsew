@@ -18,7 +18,9 @@ module.exports = function(grunt) {
     sass: {
       dev: {
         options: {
-          style: 'expanded'
+          outputStyle: 'expanded',
+          outFile: '<%= project.build %>/styles.css',
+          sourceMap: true
         },
         files: {
             "<%= project.build %>/styles.css": "<%= project.css %>/styles.sass"
@@ -26,8 +28,7 @@ module.exports = function(grunt) {
       },
       build: {
         options: {
-          style: 'expanded',
-          sourcemap: 'none'
+          outputStyle: 'compressed'
         },
         files: {
             "<%= project.build %>/styles.css": "<%= project.css %>/styles.sass"
@@ -61,8 +62,8 @@ module.exports = function(grunt) {
         ext: '.js'
       }
     },
-    // Jade -> HTML
-    jade: {
+    // Pug -> HTML
+    pug: {
       compile: {
         options: {
           pretty: true
@@ -70,7 +71,7 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           cwd: '<%= project.app %>/',
-          src: ['**/*.jade','!**/_*.jade'],
+          src: ['**/*.pug','!**/_*.pug'],
           dest: '<%= project.build %>/',
           ext: '.html'
         }]
@@ -88,29 +89,17 @@ module.exports = function(grunt) {
         }
       }
     },
-    // Minify CSS
-    cssmin: {
-      options: {
-        sourceMap: true
-      },
-      target: {
-        files: {
-          "<%= project.build %>/styles.min.css": ['<%= project.build %>/styles.css']
-        }
-      }
-    },
-    // JS Error checking
+    //** UNIT TESTS AND JSHINT **/
+    // Checks javascript for errors
     jshint: {
-      files: ['Gruntfile.js', '<%= project.build %>/scripts/app.js', '<%= project.build %>/components/**/*.js'],
       options: {
-        // options here to override JSHint defaults
-        globals: {
-          jQuery: true,
-          console: true,
-          module: true,
-          document: true
-        }
-      }
+        jshintrc: '<%= project.app %>/.jshintrc',
+        reporter: require('jshint-stylish')
+      },
+      all: [
+        '<%= project.build %>/scripts/app.js',
+        '!<%= project.build %>/scripts/vendor/**/*.js'
+      ]
     },
     // Minify JS
     uglify: {
@@ -140,10 +129,10 @@ module.exports = function(grunt) {
           max_jshint_notifications: 1
         }
       },
-      jade:{
+      pug:{
         options:{
           title: "Grunt",
-          message: "Jade Compiled Successfully.",
+          message: "Pug Compiled Successfully.",
           duration: 2,
           max_jshint_notifications: 1
         }
@@ -169,7 +158,7 @@ module.exports = function(grunt) {
       images: {
         files: [{
           cwd: '<%= project.app %>/', 
-          src: ['content/**/*'],
+          src: ['content/**/*', '*.{ico,png,txt}'],
           dest: '<%= project.build %>/'
         }],
       }
@@ -179,7 +168,12 @@ module.exports = function(grunt) {
       main: {
         expand: true,
         cwd: '<%= project.app %>/',
-        src: ['content/**', 'scripts/vendor/*.js'],
+        src: [
+          '*.{ico,png,txt}',
+          '.htaccess',
+          'content/**/*.*', 
+          'scripts/vendor/**/*.*'
+        ],
         dest: '<%= project.build %>/',
       }
     },
@@ -197,19 +191,15 @@ module.exports = function(grunt) {
     watch: {
       sass: {
         files: ['<%= project.css %>/**/*.{scss,sass}','<%= project.components %>/**/*.{scss,sass}'],
-        tasks: ['sass','notify:sass']
+        tasks: ['sass', 'autoprefixer', 'notify:sass']
       },
       coffee: {
         files: ['<%= project.js %>/**/*.{coffee,litcoffee}','<%= project.components %>/**/*.{coffee,litcoffee}'],
         tasks: ['coffee', 'notify:coffee']
       },
-      jade: {
-        files: ['<%= project.app %>/**/*.jade'],
-        tasks: ['jade', 'notify:jade']
-      },
-      autoprefixer:{
-        files: ['<%= project.build %>/styles.css'],
-        tasks: ['autoprefixer', 'cssmin']
+      pug: {
+        files: ['<%= project.app %>/**/*.pug'],
+        tasks: ['pug', 'notify:pug']
       },
       uglify: {
         files: ['<%= project.build %>/**/*.js'],
@@ -218,6 +208,9 @@ module.exports = function(grunt) {
       images: {
         files: ['<%= project.app %>/content/**/*', '<%= project.js %>/vendor/*'],
         tasks: ['sync:images', 'notify:images']
+      },
+      gruntfile: {
+        files: ['Gruntfile.js']
       }
     },
     // Server setup
@@ -225,7 +218,7 @@ module.exports = function(grunt) {
       dev: {
         bsFiles: {
           src : [
-              '<%= project.build %>/styles.min.css',
+              '<%= project.build %>/styles.css',
               '<%= project.build %>/**/*.js',
               '<%= project.build %>/content/**/*.{png,jpg,jpeg,gif,webp,svg}',
               '<%= project.build %>/**/*.html'
@@ -243,23 +236,23 @@ module.exports = function(grunt) {
   grunt.registerTask('default', [
     'clean',
     'copy',
-    'jade',
+    'pug',
     'sass:dev',
     'autoprefixer',
-    'cssmin',
     'coffee:dev',
     'uglify',
+    'jshint',
     'browserSync',
     'watch'
   ]);
   grunt.registerTask('build', [
     'clean',
     'copy',
-    'jade',
+    'pug',
     'sass:build',
     'autoprefixer',
-    'cssmin',
     'coffee:build',
     'uglify',
+    'jshint'
   ]);
 };
