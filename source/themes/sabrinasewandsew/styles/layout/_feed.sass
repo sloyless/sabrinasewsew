@@ -1,0 +1,56 @@
+section#bts
+  margin-bottom: 25px
+
+  h1
+    display: inline
+
+  a.instagram-link
+    font-family: $headings-font-family
+    font-size: 13px
+    display: block
+
+    @media (min-width: $screen-md)
+      font-size: 16px
+      float: right
+
+    i
+      margin-right: 5px
+
+  #gallery
+    .gallery-image
+      @media (min-width: $screen-md)
+        padding-left: 5px
+        padding-right: 5px
+
+      img
+        margin-bottom: 5px
+        @media (min-width: $screen-md)
+          padding-left: 5px
+          padding-right: 5px
+          &.portrait
+            display: inline-block
+            width: 50%
+            vertical-align: top
+          &.landscape
+            display: block
+          &.featured
+            padding-left: 0
+            padding-right: 0
+  
+  iframe
+    margin-top: 25px
+    margin-bottom: 25px
+    width: 300px
+    height: 169px
+    
+    @media (min-width: $screen-sm)
+      width: 410px
+      height: 231px    
+
+    @media (min-width: $screen-md)
+      width: 353px
+      height: 196px
+    
+    @media (min-width: $screen-lg)
+      width: 100%
+      height: 340px

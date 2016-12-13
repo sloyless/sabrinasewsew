@@ -1,0 +1,9 @@
+{
+  "name": "sabrina-sew-and-sew",
+  "version": "2016.12.12",
+  "dependencies": {
+    "jquery": "1.11.0",
+    "parallax.js": "^1.4.2"
+  },
+  "devDependencies": {}
+}

@@ -1,0 +1,45 @@
+#global-header
+  margin-top: 160px
+  margin-bottom: 160px
+
+#mainNav
+  font-family: $headings-font-family
+  font-size: 12px
+  width: 100%
+
+  li
+    margin-top: 23px
+    margin-left: 0
+
+    a
+      padding: 0
+
+    &.logo-small
+      margin-top: 0
+      height: 70px
+
+      a
+        &:hover, &:focus
+          background-color: transparent
+
+      img
+        opacity: 0
+        transform: rotateY(180deg)
+        transition: all 0.4s ease-in-out
+        max-width: 70px
+
+#global-header.fixed
+  #mainNav
+    background-color: rgba(255,255,255,0.9)
+    position: fixed
+    top: 0
+    left: 0
+    z-index: 998
+    li.logo-small img
+      opacity: 1
+      transform: rotateY(0deg)
+
+.logo
+  img
+    width: 600px
+    height: auto
