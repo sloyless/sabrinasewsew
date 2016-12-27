@@ -1,0 +1,138 @@
+// Global styles go here
+*:focus
+  outline: 0
+
+html
+  font-size: 62.5% // Font size reset to use rem values
+
+.serif
+  font-family: $font-family-serif
+
+.sans
+  font-family: $font-family-sans-serif
+
+body
+  font-weight: $body-font-weight
+
+strong
+  font-weight: $font-bold-weight
+
+h1
+  font-size: 20px
+
+  @media (min-width: $screen-md)
+    font-size: $font-size-h1
+
+h2
+  font-size: 17px
+
+  @media (min-width: $screen-md)
+    font-size: $font-size-h2
+
+/* Animation */
+a, a:visited,
+input[type="submit"],
+button
+  +transition(color 0.2s ease-in-out)
+  -webkit-backface-visibility: hidden
+
+/* General */
+*:focus
+  outline: 0
+
+p
+  margin: 10px 0
+  &:first-of-type
+    margin-top: 0
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="tel"]
+  -moz-appearance: textfield
+  -moz-user-select: text
+  cursor: text
+  text-align: start
+  text-rendering: optimizelegibility
+
+ul.nolist
+  list-style-type: none
+  margin: 0
+  padding: 0
+
+img.alignleft
+  float: none
+  margin: 0 auto 10px
+  @media (min-width: $screen-sm)
+    float: left
+    margin: 0 10px 10px 0
+
+img.alignright
+  float: none
+  margin: 0 auto 10px
+  @media (min-width: $screen-sm)
+    float: right
+    margin: 0 0 10px 10px
+
+.clear
+  clear: both
+
+// Hide only visually, but have it available for screenreaders: h5bp.com/v
+.visuallyhidden
+  border: 0
+  clip: rect(0 0 0 0)
+  height: 1px
+  margin: -1px
+  overflow: hidden
+  padding: 0
+  position: absolute
+  width: 1px
+
+  // Extends the .visuallyhidden class to allow the element to be focusable when navigated to via the keyboard: h5bp.com/p
+  &.focusable:active, &.focusable:focus
+    clip: auto
+    height: auto
+    margin: 0
+    overflow: visible
+    position: static
+    width: auto
+
+// Icons
+.icon
+  display: block
+
+  &:before
+    display: block
+    position: relative
+    margin: 0 auto
+    content: ''
+
+section
+  clear: both
+
+.parallax-window
+  min-height: 700px
+
+.divider
+  clear: both
+  display: block
+  position: relative
+  border: 1px dashed silver
+  width: 100%
+  margin-top: 35px
+  margin-bottom: 45px
+  &:after
+    content: ''
+    display: block
+    position: absolute
+    top: -34px
+    left: 50%
+    width: 50px
+    height: 75px
+    padding: 0 40px
+    +img-retina('content/images/divider-logo.png', 'content/images/divider-logo@2x.png', 50px, 76px)
+    background-color: white
+    background-repeat: no-repeat 
+    background-position: center center
+    transform: translateX(-50%)
+    background-size: 50px

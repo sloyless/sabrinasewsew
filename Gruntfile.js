@@ -7,23 +7,24 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     project: {
-      app: ['./source'],
-      build: ['./build'],
+      theme: ['sabrinasewandsew'], // Edit this per project
+      app: ['./source/themes/<%= project.theme %>'],
+      build: ['./build/wp-content/themes/<%= project.theme %>'],
       css: ['<%= project.app %>/styles'],
       js: ['<%= project.app %>/scripts'],
-      components: ['<%= project.app %>/components'],
-      templates: ['<%= project.app %>/templates']
+      pluginSouce: ['./source/plugins'],
+      pluginBuild: ['./build/wp-content/plugins']
     },
     // Sass -> CSS
     sass: {
       dev: {
         options: {
           outputStyle: 'expanded',
-          outFile: '<%= project.build %>/styles.css',
+          outFile: '<%= project.build %>/style.css',
           sourceMap: true
         },
         files: {
-            "<%= project.build %>/styles.css": "<%= project.css %>/styles.sass"
+            "<%= project.build %>/style.css": "<%= project.css %>/style.sass"
         }
       },
       build: {
@@ -31,7 +32,7 @@ module.exports = function(grunt) {
           outputStyle: 'compressed'
         },
         files: {
-            "<%= project.build %>/styles.css": "<%= project.css %>/styles.sass"
+            "<%= project.build %>/style.css": "<%= project.css %>/style.sass"
         }
       }
     },
@@ -40,12 +41,12 @@ module.exports = function(grunt) {
       dev: {
         options: {
           bare: true,
-          sourceMap: true
+          sourceMap: false
         },
         expand: true,
         flatten: false,
         cwd: '<%= project.app %>/',
-        src: ['**/*.{coffee,litcoffee}','<%= project.components %>/**/*.{coffee,litcoffee}'],
+        src: ['**/*.{coffee,litcoffee}'],
         dest: '<%= project.build %>/',
         ext: '.js'
       },
@@ -57,25 +58,22 @@ module.exports = function(grunt) {
         expand: true,
         flatten: false,
         cwd: '<%= project.app %>/',
-        src: ['**/*.{coffee,litcoffee}','<%= project.components %>/**/*.{coffee,litcoffee}'],
+        src: ['**/*.{coffee,litcoffee}'],
         dest: '<%= project.build %>/',
         ext: '.js'
       }
     },
-    // Pug -> HTML
-    pug: {
-      compile: {
-        options: {
-          pretty: true
-        },
-        files: [{
-          expand: true,
-          cwd: '<%= project.app %>/',
-          src: ['**/*.pug','!**/_*.pug'],
-          dest: '<%= project.build %>/',
-          ext: '.html'
-        }]
-      }
+    //** UNIT TESTS AND JSHINT **/
+    // Checks javascript for errors
+    jshint: {
+      options: {
+        jshintrc: './source/.jshintrc',
+        reporter: require('jshint-stylish')
+      },
+      all: [
+        '<%= project.build %>/scripts/app.js',
+        '!<%= project.build %>/scripts/vendor/**/*.js'
+      ]
     },
     // Adds any relevate autoprefixers supporting IE 11 and above
     autoprefixer: {
@@ -85,30 +83,7 @@ module.exports = function(grunt) {
       },
       target: {
         files: {
-            "<%= project.build %>/styles.css": "<%= project.build %>/styles.css"
-        }
-      }
-    },
-    //** UNIT TESTS AND JSHINT **/
-    // Checks javascript for errors
-    jshint: {
-      options: {
-        jshintrc: '<%= project.app %>/.jshintrc',
-        reporter: require('jshint-stylish')
-      },
-      all: [
-        '<%= project.build %>/scripts/app.js',
-        '!<%= project.build %>/scripts/vendor/**/*.js'
-      ]
-    },
-    // Minify JS
-    uglify: {
-      options: {
-        mangle: true
-      },
-      target: {
-        files: {
-          "<%= project.build %>/scripts/app.min.js":   ["<%= project.build %>/scripts/app.js"]
+          "<%= project.build %>/style.css": "<%= project.build %>/style.css"
         }
       }
     },
@@ -129,18 +104,18 @@ module.exports = function(grunt) {
           max_jshint_notifications: 1
         }
       },
-      pug:{
+      php:{
         options:{
           title: "Grunt",
-          message: "Pug Compiled Successfully.",
+          message: "PHP Updated Successfully.",
           duration: 2,
           max_jshint_notifications: 1
         }
       },
-      uglify:{
+      plugins:{
         options:{
           title: "Grunt",
-          message: "JS Linted and Minified Successfully.",
+          message: "Plugins Updated Successfully.",
           duration: 2,
           max_jshint_notifications: 1
         }
@@ -154,15 +129,6 @@ module.exports = function(grunt) {
         }
       }
     },
-    sync: {
-      images: {
-        files: [{
-          cwd: '<%= project.app %>/', 
-          src: ['content/**/*', '*.{ico,png,txt}'],
-          dest: '<%= project.build %>/'
-        }],
-      }
-    },
     // Copies remaining files to places other tasks can use
     copy: {
       main: {
@@ -170,11 +136,45 @@ module.exports = function(grunt) {
         cwd: '<%= project.app %>/',
         src: [
           '*.{ico,png,txt}',
-          '.htaccess',
-          'content/**/*.*', 
-          'scripts/vendor/**/*.*'
+          '**/*.php', 
+          'content/**/*',
+          'screenshot.png'
         ],
         dest: '<%= project.build %>/',
+      },
+      plugins: {
+        expand: true,
+        cwd: '<%= project.pluginSouce %>/',
+        src: ['**/*'],
+        dest: '<%= project.pluginBuild %>/'
+      }
+    },
+    bower: {
+      dev: {
+        dest: '<%= project.build %>/scripts/vendor/'
+      }
+    },
+    sync: {
+      php: {
+        files: [{
+          cwd: '<%= project.app %>/',
+          src: ['**/*.php'],
+          dest: '<%= project.build %>/'
+        }],
+      },
+      images: {
+        files: [{
+          cwd: '<%= project.app %>/',
+          src: ['images/*.{jpg,png,gif,svg}'],
+          dest: '<%= project.build %>/'
+        }],
+      },
+      plugins: {
+        files: [{
+          cwd: '<%= project.pluginSouce %>/',
+          src: ['**/*'],
+          dest: '<%= project.pluginBuild %>/'
+        }]
       }
     },
     // Empties folders to start fresh
@@ -190,69 +190,93 @@ module.exports = function(grunt) {
     },
     watch: {
       sass: {
-        files: ['<%= project.css %>/**/*.{scss,sass}','<%= project.components %>/**/*.{scss,sass}'],
-        tasks: ['sass', 'autoprefixer', 'notify:sass']
+        files: ['<%= project.css %>/**/*.{scss,sass}'],
+        tasks: ['sass:dev','autoprefixer','notify:sass']
       },
       coffee: {
-        files: ['<%= project.js %>/**/*.{coffee,litcoffee}','<%= project.components %>/**/*.{coffee,litcoffee}'],
-        tasks: ['coffee', 'notify:coffee']
+        files: ['<%= project.js %>/**/*.{coffee,litcoffee}'],
+        tasks: ['coffee:dev', 'jshint', 'notify:coffee']
       },
-      pug: {
-        files: ['<%= project.app %>/**/*.pug'],
-        tasks: ['pug', 'notify:pug']
+      // Sync tasks for PHP, Plugins, and Images
+      php: {
+        files: ['<%= project.app %>/**/*.php'],
+        tasks: ['sync:php', 'notify:php']
       },
-      uglify: {
-        files: ['<%= project.build %>/**/*.js'],
-        tasks:['jshint','uglify','notify:uglify']
+      plugins: {
+        files: '<%= project.pluginSouce %>/**/*',
+        tasks: ['sync:plugins', 'notify:plugins']
       },
       images: {
-        files: ['<%= project.app %>/content/**/*', '<%= project.js %>/vendor/*'],
+        files: ['<%= project.app %>/images/*.{png,jpg,jpeg,gif,webp,svg}'],
         tasks: ['sync:images', 'notify:images']
       },
       gruntfile: {
         files: ['Gruntfile.js']
       }
     },
-    // Server setup
+    // Server setup -- Need external dB for WordPress development.
+    php: {
+      dev: {
+        options: {
+          base: 'build',
+          port: 8888,
+          open: false,
+          keepalive: false,
+          silent: true
+        }
+      }
+    },
     browserSync: {
       dev: {
         bsFiles: {
           src : [
-              '<%= project.build %>/styles.css',
+              '<%= project.build %>/style.css',
               '<%= project.build %>/**/*.js',
-              '<%= project.build %>/content/**/*.{png,jpg,jpeg,gif,webp,svg}',
-              '<%= project.build %>/**/*.html'
+              '<%= project.build %>/**/*.{png,jpg,jpeg,gif,webp,svg}',
+              '<%= project.build %>/**/*.{php,html}',
+              '<%= project.pluginBuild %>/**/*.*'
           ]
         },
         options: {
+          proxy: 'localhost:8888', //our PHP server
+          port: 9000,
           watchTask: true,
-          server: '<%= project.build %>/'
+          notify: true,
+          open: true,
+          logLevel: 'info',
+          ghostMode: {
+            clicks: true,
+            scroll: true,
+            links: true,
+            forms: true
+          }
         }
       }
     }
   });
-  
+
   // Default task(s).
   grunt.registerTask('default', [
     'clean',
-    'copy',
-    'pug',
+    'copy:main',
+    'copy:plugins',
+    'bower',
     'sass:dev',
     'autoprefixer',
     'coffee:dev',
-    'uglify',
     'jshint',
+    'php',
     'browserSync',
     'watch'
   ]);
   grunt.registerTask('build', [
     'clean',
-    'copy',
-    'pug',
+    'copy:main',
+    'copy:plugins',
+    'bower',
     'sass:build',
     'autoprefixer',
     'coffee:build',
-    'uglify',
     'jshint'
   ]);
 };

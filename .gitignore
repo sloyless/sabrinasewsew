@@ -8,17 +8,26 @@ Icon
 ._*
 .Spotlight-V100
 .Trashes
-.tmp
 
 # --------------------
 # Node Files
 # --------------------
 .nodemonignore
 npm-debug.log
-node_modules
+node_modules/
 
 # --------------------
-# Server Files
+# SASS Files
 # --------------------
-build
+.sass-cache/
+
+# --------------------
+# Bower Files
+# --------------------
+.bower-*/
 bower_components
+
+# --------------------
+# Wordpress Files
+# --------------------
+build/
