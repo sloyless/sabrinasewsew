@@ -22,7 +22,7 @@
     "jshint-stylish": "^2.2.1",
     "load-grunt-tasks": "^3.4.1",
     "newer": "^0.1.5",
-    "node-sass": "^3.13.0"
+    "node-sass": "^4.14.1"
   },
   "engines": {
     "node": ">=4.0",
